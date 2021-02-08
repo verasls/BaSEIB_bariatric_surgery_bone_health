@@ -50,3 +50,18 @@ list(
   name = map(BMD_vars, ~ paste0("emm_", .x, "_time.csv"))
 ) %>%
   pwalk(write_output)
+
+# Model biochemical variables throughout time -----------------------------
+
+bio_vars <- c("PTH", "vitD", "sclerostin")
+bio_formula <- map(bio_vars, ~ as.formula(paste0(.x, " ~ time + (1 | subj)")))
+bio_models <- map(bio_formula, lmer, data = df) %>% set_names(bio_vars)
+bio_fixed_effects <- map(bio_models, anova, type = 3, test = "F")
+bio_time_emm <- map(bio_models, ~ emmeans(.x, ~ time))
+bio_pairwise <- map(bio_time_emm, pairs, adjust = "holm")
+# Write estimated marginal means to a file
+list(
+  data = map(bio_time_emm, as.data.frame),
+  name = map(bio_vars, ~ paste0("emm_", .x, "_time.csv"))
+) %>%
+  pwalk(write_output)
