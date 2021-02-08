@@ -1,7 +1,10 @@
-# Load packages -----------------------------------------------------------
+# Load packages and functions ---------------------------------------------
 
 library(here)
 library(tidyverse)
+library(lmerTest)
+library(emmeans)
+source(here("code/functions/utils.R"))
 
 # Read data ---------------------------------------------------------------
 
@@ -32,3 +35,18 @@ cat_vars <- df_baseline %>%
 
 map(cat_vars, ~ prop.table(table(df_baseline[[.x]]))) %>%
   set_names(cat_vars)
+
+# Model BMD change throughout time ----------------------------------------
+
+BMD_vars <- c("pc_TH_BMD", "pc_FN_BMD", "pc_LS_BMD", "pc_TR_BMD")
+BMD_formula <- map(BMD_vars, ~ as.formula(paste0(.x, " ~ time + (1 | subj)")))
+BMD_models <- map(BMD_formula, lmer, data = df)  %>% set_names(BMD_vars)
+BMD_fixed_effects <- map(BMD_models, anova, type = 3, test = "F")
+BMD_time_emm <- map(BMD_models, ~ emmeans(.x, ~ time))
+BMD_pairwise <- map(BMD_time_emm, pairs, adjust = "holm")
+# Write estimated marginal means to a file
+list(
+  data = map(BMD_time_emm, as.data.frame),
+  name = map(BMD_vars, ~ paste0("emm_", .x, "_time.csv"))
+) %>%
+  pwalk(write_output)
