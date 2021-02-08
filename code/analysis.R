@@ -4,6 +4,7 @@ library(here)
 library(tidyverse)
 library(lmerTest)
 library(emmeans)
+library(lvmisc)
 source(here("code/functions/utils.R"))
 
 # Read data ---------------------------------------------------------------
@@ -115,3 +116,52 @@ list(
   name = map(GL_vars, ~ paste0("emm_", .x, "_time.csv"))
 ) %>%
   pwalk(write_output)
+
+# Prediction of BMD changes -----------------------------------------------
+
+# Scale and center variables
+vars <- c(
+  "TH_BMD", "FN_BMD", "LS_BMD",
+  "whole_body_total_mass", "whole_body_fat_mass",
+  "whole_body_lean_mass", "gravitational_loading"
+)
+centered_vars <- map(vars, ~ scale(df[[.x]])) %>%
+  set_names(paste0(vars, "_centered")) %>%
+  map(as.vector) %>%
+  as_tibble
+df <- cbind(df, centered_vars) %>% as_tibble
+
+predictors <- c(
+  "whole_body_total_mass_centered", "whole_body_fat_mass_centered",
+  "whole_body_lean_mass_centered", "gravitational_loading_centered"
+)
+
+# Total hip
+TH_formula <- map(
+  predictors,
+  ~ as.formula(paste0("TH_BMD_centered ~ ", .x, " + (1 | subj) + (1 | time)"))
+)
+TH_models <- map(TH_formula, lmer, data = df) %>%
+  set_names(predictors)
+TH_estimates <- map(TH_models, summary) %>% map(coefficients)
+TH_r2 <- map(TH_models, r2)
+
+# Femoral neck
+FN_formula <- map(
+  predictors,
+  ~ as.formula(paste0("FN_BMD_centered ~ ", .x, " + (1 | subj) + (1 | time)"))
+)
+FN_models <- map(FN_formula, lmer, data = df) %>%
+  set_names(predictors)
+FN_estimates <- map(FN_models, summary) %>% map(coefficients)
+FN_r2 <- map(FN_models, r2)
+
+# Lumbar spine
+LS_formula <- map(
+  predictors,
+  ~ as.formula(paste0("LS_BMD_centered ~ ", .x, " + (1 | subj) + (1 | time)"))
+)
+LS_models <- map(LS_formula, lmer, data = df) %>%
+  set_names(predictors)
+LS_estimates <- map(LS_models, summary) %>% map(coefficients)
+LS_r2 <- map(LS_models, r2)
