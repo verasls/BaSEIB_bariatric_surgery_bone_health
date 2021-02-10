@@ -1,4 +1,4 @@
-figs: figures/fig1.tiff figures/fig2.tiff figures/fig3.tiff figures/fig4.tiff figures/figS1.tiff figures/figS1.tiff
+figs: figures/fig1.tiff figures/fig2.tiff figures/fig3.tiff figures/fig4.tiff figures/figS1.tiff figures/figS2.tiff
 
 figures/fig1.tiff: output/emm_pc_FN_BMD_time.csv output/emm_pc_LS_BMD_time.csv output/emm_pc_TH_BMD_time.csv output/emm_pc_TR_BMD_time.csv figures/fig1.R
 	cd figures;R CMD BATCH fig1.R
@@ -18,8 +18,11 @@ figures/figS1.tiff: output/emm_SB_h_time.csv output/emm_LPA_h_time.csv output/em
 figures/figS2.tiff: data/df.csv figures/figS2.R
 	cd figures;R CMD BATCH figS2.R
 
+output/%.csv: data/df.csv code/functions/utils.R code/analysis.R
+	cd code;R CMD BATCH analysis.R
+
 clean: 
 	\rm -f figures/*.Rout figures/.Rdata
 
 cleanall:
-	\rm -f figures/*.Rout figures/.Rdata figures/*.tiff
+	\rm -f figures/*.Rout figures/.Rdata figures/*.tiff output/*.csv
