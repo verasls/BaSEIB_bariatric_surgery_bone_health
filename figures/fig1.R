@@ -68,21 +68,21 @@ BMD_plot <- ggplot(BMD_plot_data) +
       the first year after bariatric surgery"
     )
   ) +
-  annotate("text", x = 2.925, y = - 1.200, label = "a'") +
-  annotate("text", x = 2.925, y = - 1.700, label = "b'") +
-  annotate("text", x = 3.940, y = - 5.500, label = "a''") +
-  annotate("text", x = 3.940, y = - 6.000, label = "b''") +
-  annotate("text", x = 3.940, y = - 6.450, label = "c''") +
-  annotate("text", x = 2.010, y = - 2.200, label = "a") +
-  annotate("text", x = 3.010, y = - 3.960, label = "a'") +
-  annotate("text", x = 4.010, y = - 7.450, label = "a''") +
-  annotate("text", x = 4.010, y = - 7.950, label = "b''") +
-  annotate("text", x = 4.010, y = - 8.400, label = "c' ") +
-  annotate("text", x = 3.080, y = - 1.500, label = "a'") +
-  annotate("text", x = 3.080, y = - 2.000, label = "b'") +
-  annotate("text", x = 4.090, y = - 3.950, label = "a''") +
-  annotate("text", x = 4.090, y = - 4.450, label = "b''") +
-  annotate("text", x = 4.090, y = - 4.900, label = "c' ")
+  annotate("text", x = 2.925, y = - 1.200, label = "a'", hjust = 0) +
+  annotate("text", x = 2.925, y = - 1.700, label = "b'", hjust = 0) +
+  annotate("text", x = 3.915, y = - 5.500, label = "a''", hjust = 0) +
+  annotate("text", x = 3.915, y = - 6.000, label = "b''", hjust = 0) +
+  annotate("text", x = 3.915, y = - 6.450, label = "c''", hjust = 0) +
+  annotate("text", x = 2.010, y = - 2.200, label = "a", hjust = 0) +
+  annotate("text", x = 3.010, y = - 3.960, label = "a'", hjust = 0) +
+  annotate("text", x = 4.010, y = - 7.450, label = "a''", hjust = 0) +
+  annotate("text", x = 4.010, y = - 7.950, label = "b''", hjust = 0) +
+  annotate("text", x = 4.010, y = - 8.400, label = "c'", hjust = 0) +
+  annotate("text", x = 3.080, y = - 1.500, label = "a'", hjust = 0) +
+  annotate("text", x = 3.085, y = - 2.000, label = "b'", hjust = 0) +
+  annotate("text", x = 4.090, y = - 3.950, label = "a''", hjust = 0) +
+  annotate("text", x = 4.090, y = - 4.450, label = "b''", hjust = 0) +
+  annotate("text", x = 4.090, y = - 4.900, label = "c'", hjust = 0)
 
 # Save plot ---------------------------------------------------------------
 
