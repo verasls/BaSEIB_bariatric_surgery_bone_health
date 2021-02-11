@@ -79,6 +79,7 @@ vignettes/*.pdf
 *.docx
 *.ppt
 *.Rout
+*.html
 *.pptx
 data/
 output/
