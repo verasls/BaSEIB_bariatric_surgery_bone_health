@@ -22,7 +22,7 @@ output/%.csv: data/df.csv code/functions/utils.R code/analysis.R
 	cd code;R CMD BATCH analysis.R
 
 clean: 
-	\rm -f figures/*.Rout figures/.Rdata
+	\rm -f figures/*.Rout figures/.Rdata code/analysis.Rout code/.RData
 
 cleanall:
-	\rm -f figures/*.Rout figures/.Rdata figures/*.tiff output/*.csv
+	\rm -f figures/*.Rout figures/.Rdata figures/*.tiff output/*.csv code/analysis.Rout code/.RData
