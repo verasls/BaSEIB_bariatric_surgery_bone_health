@@ -1,5 +1,7 @@
+## figs        : Generates all figures
 figs: figures/fig1.tiff figures/fig2.tiff figures/fig3.tiff figures/fig4.tiff figures/figS1.tiff figures/figS2.tiff
 
+## report.html : Generates html version of the data analysis report
 report.html: report.Rmd
 	Rscript -e 'rmarkdown::render("$<")'
 
@@ -24,8 +26,14 @@ figures/figS2.tiff: data/df.csv figures/figS2.R
 output/%.csv: data/df.csv code/functions/utils.R code/analysis.R
 	cd code;R CMD BATCH analysis.R
 
+## clean       : Removes auto-generated files
 clean: 
 	\rm -f figures/*.Rout figures/.Rdata code/analysis.Rout code/.RData *.html
 
+## cleanall    : Removes auto-generated files, including data from output/
 cleanall:
 	\rm -f figures/*.Rout figures/.Rdata figures/*.tiff output/*.csv code/analysis.Rout code/.RData *.html
+
+.PHONY : help
+help : Makefile
+	@sed -n 's/^##//p' $<
