@@ -28,7 +28,7 @@ output/%.csv: data/df.csv code/functions/utils.R code/analysis.R
 
 ## clean       : Removes auto-generated files
 clean: 
-	\rm -f figures/*.Rout figures/.Rdata code/analysis.Rout code/.RData *.html
+	\rm -f figures/*.Rout figures/.Rdata code/analysis.Rout code/.RData
 
 ## cleanall    : Removes auto-generated files, including data from output/
 cleanall:
