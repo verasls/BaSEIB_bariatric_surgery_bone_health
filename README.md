@@ -1,5 +1,7 @@
 # BaSEIB_bariatric_surgery_bone_health
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4537251.svg)](https://doi.org/10.5281/zenodo.4537251)
+
 This repository contains data analysis resources from the manuscript "The effect of bariatric surgery on gravitational loading and its impact on bone mass".
 
  ---
