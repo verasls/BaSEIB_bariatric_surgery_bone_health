@@ -10,9 +10,9 @@ Florêncio Diniz-Sousa, Lucas Veras, Giorjines Boppre, Vítor Devezas, Hugo Sant
 
 ---
 
-You can find the data analysis report [here](https://lveras.com/reports/report.html).
+You can find the data analysis report [here](https://lveras.com/reports/report_BaSEIB_bariatric_surgery_bone_health.html).
 
-There are 2 subdirectories in this repository:
+The main subdirectories in this repository are:
 
 1. [code](code/): with code for the data analysis and functions.
 2. [figs](figs/): with code to generate the figures.
