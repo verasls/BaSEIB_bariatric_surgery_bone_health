@@ -18,10 +18,12 @@ editor_options:
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(eval = FALSE)
 ```
+
 ```{r source, eval = TRUE, echo = FALSE, include = FALSE}
 library(here)
 source(here("code/analysis.R"))
 ```
+
 <br> 
 
 This report contains the data analysis description of the manuscript entitled "The effect of bariatric surgery on gravitational loading and its impact on bone mass". All code contained in theses analysis is in a [github repository](https://github.com/verasls/BaSEIB_bariatric_surgery_bone_health). The [code](https://github.com/verasls/BaSEIB_bariatric_surgery_bone_health/tree/main/code) directory contains the [analysis.R](https://github.com/verasls/BaSEIB_bariatric_surgery_bone_health/blob/main/code/analysis.R) script, with all data analysis for the manuscript results, and the [functions](https://github.com/verasls/BaSEIB_bariatric_surgery_bone_health/tree/main/code/functions) subdirectory with function definitions. Also, the [.Rmd](https://github.com/verasls/BaSEIB_bariatric_surgery_bone_health/blob/main/report.Rmd) file used to generate this report is in the project root directory and the code to generate all figures included in the manuscript is inside the [figures](https://github.com/verasls/BaSEIB_bariatric_surgery_bone_health/tree/main/figures) directory.
@@ -74,9 +76,9 @@ map(cat_vars, ~ prop.table(table(df_baseline[[.x]]))) %>%
 
 # Linear mixed models: Time effect
 
-All outcomes included in the manuscript had their time effect evaluated by linear mixed models using the `lmer()` function of the [`lme4`](https://cran.r-project.org/web/packages/lme4/index.html) package. An example of this process is shown below for the bone mineral density variables.
+All outcomes included in the manuscript had their time effect evaluated by linear mixed models using the `lmer()` function of the [`lme4`](https://cran.r-project.org/web/packages/lme4/index.html) package. These outcomes included bone mineral density, body composition, bone metabolism regulators, gravitational loading, sedentary behavior and physical activity intensities. The gravitational loading related variables were computed through a custom software written in Python and R, which was briefly described [elsewhere](https://github.com/verasls/daily_GRF).
 
-All models and the information extracted from them were recursively created with the aid of the functional programming tools from the [`purrr`](https://purrr.tidyverse.org) package.
+All models and the information extracted from them were recursively created with the aid of the functional programming tools from the [`purrr`](https://purrr.tidyverse.org) package. An example of this process is shown below for the bone mineral density variables.
 
 First, a character vector with the variable names was created in order to recursively build the model formula for each variable. All models had the same structure: the `time` variable (4 levels; pre-bariatric surgery, 1-month, 6-months and 12-months after bariatric surgery) was used as a fixed factor and the `subj` variable (the subjects) as a random factor. Therefore, the only varying part was the outcome variable and the general model formula was `outcome ~ time + (1 | subj)`. Then, all models were created applying the `lmer()` function to a list of formulas, and the models were also stored in a list. Afterwards, the estimated marginal means for all the `time` levels were calculated with the `emmeans()` function of the [`emmeans`](https://cran.r-project.org/web/packages/emmeans/index.html) package and the pairwise comparisons with Holm adjustment were computed with the `pairs()` method for an `emmGrid` object. Finally, the estimated marginal means were put into data frames and exported as .csv files to be used to build the plots.
 
