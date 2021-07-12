@@ -54,6 +54,20 @@ list(
 ) %>%
   pwalk(write_output)
 
+# Model BMD change throughout time ----------------------------------------
+
+BMD_abs_vars <- c("TH_BMD", "FN_BMD", "LS_BMD", "TR_BMD")
+BMD_abs_formula <- map(
+  BMD_abs_vars, ~ as.formula(paste0(.x, " ~ time + (1 | subj)"))
+)
+BMD_abs_models <- map(
+  BMD_abs_formula, lmer, data = df
+)  %>%
+  set_names(BMD_abs_vars)
+BMD_abs_fixed_effects <- map(BMD_abs_models, anova, type = 3, test = "F")
+BMD_abs_time_emm <- map(BMD_abs_models, ~ emmeans(.x, ~ time))
+BMD_abs_pairwise <- map(BMD_abs_time_emm, pairs, adjust = "holm")
+
 # Model biochemical variables throughout time -----------------------------
 
 bio_vars <- c("PTH", "vitD", "sclerostin")
